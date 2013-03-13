@@ -57,7 +57,20 @@ class CommentController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 	protected $entryId;
 
 	/**
-	 *
+	 * @var \TYPO3\CMS\Core\Mail\MailMessage
+	 * @inject
+	 */
+	protected $mailMessage;
+
+	/**
+	 * @var array
+	 */
+	protected $embedCache;
+
+	/**
+	 * 1. build entryId for the comment so we know what to query
+	 * 2. check for a logged in user
+	 * 3. set query settings so it will find hidden comments
 	 */
 	public function initializeAction() {
 		$this->entryId = '';
@@ -71,12 +84,6 @@ class CommentController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 		$querySettings->setIgnoreEnableFields(TRUE);
 		$querySettings->setEnableFieldsToBeIgnored(array('disabled'));
 		$this->commentRepository->setDefaultQuerySettings($querySettings);
-
-		if ($this->request->hasArgument('comment')) {
-			$commentId = $this->request->getArgument('comment');
-			$comment = $this->commentRepository->findByUid($commentId);
-			$this->request->setArgument('comment', $comment);
-		}
 	}
 
 	/**
@@ -112,10 +119,22 @@ class CommentController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 		if ($this->frontendUser !== NULL) {
 			$comment->setAuthor($this->frontendUser);
 		}
+		$uri = $this->controllerContext->getUriBuilder()->reset()->setAddQueryString(TRUE)->setArgumentsToBeExcludedFromQueryString(array('tx_commentsbase_new'))->build();
+		$comment->setUri($uri);
+		$this->sendEmailsFor($comment, 'onCreate');
 		$this->commentRepository->add($comment);
-		$uriBuilder = $this->controllerContext->getUriBuilder();
-		$newUri = $uriBuilder->reset()->setAddQueryString(TRUE)->setArgumentsToBeExcludedFromQueryString(array('tx_commentsbase_new'))->build();
-		$this->redirectToUri($newUri);
+		$this->redirectToUri($uri);
+	}
+
+	/**
+	 * we need to manually check for the comment as it's currently hidden so it won't be found automatically
+	 */
+	public function initializeEnableAction() {
+		if ($this->request->hasArgument('comment')) {
+			$commentId = $this->request->getArgument('comment');
+			$comment = $this->commentRepository->findByUid($commentId);
+			$this->request->setArgument('comment', $comment);
+		}
 	}
 
 	/**
@@ -128,9 +147,7 @@ class CommentController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 			$comment->setDisabled(FALSE);
 			$this->commentRepository->update($comment);
 		}
-		$uriBuilder = $this->controllerContext->getUriBuilder();
-		$newUri = $uriBuilder->reset()->setAddQueryString(TRUE)->setArgumentsToBeExcludedFromQueryString(array('tx_commentsbase_list'))->build();
-		$this->redirectToUri($newUri);
+		$this->redirectToUri($this->controllerContext->getUriBuilder()->reset()->setAddQueryString(TRUE)->setArgumentsToBeExcludedFromQueryString(array('tx_commentsbase_list'))->build());
 	}
 
 	/**
@@ -142,9 +159,7 @@ class CommentController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 			$comment->setDisabled(TRUE);
 			$this->commentRepository->update($comment);
 		}
-		$uriBuilder = $this->controllerContext->getUriBuilder();
-		$newUri = $uriBuilder->reset()->setAddQueryString(TRUE)->setArgumentsToBeExcludedFromQueryString(array('tx_commentsbase_list'))->build();
-		$this->redirectToUri($newUri);
+		$this->redirectToUri($this->controllerContext->getUriBuilder()->reset()->setAddQueryString(TRUE)->setArgumentsToBeExcludedFromQueryString(array('tx_commentsbase_list'))->build());
 	}
 
 	/**
@@ -155,9 +170,67 @@ class CommentController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 		if ($this->frontendUser && $this->frontendUser->hasRole('Administrator')) {
 			$this->commentRepository->remove($comment);
 		}
-		$uriBuilder = $this->controllerContext->getUriBuilder();
-		$newUri = $uriBuilder->reset()->setAddQueryString(TRUE)->setArgumentsToBeExcludedFromQueryString(array('tx_commentsbase_list'))->build();
-		$this->redirectToUri($newUri);
+		$this->redirectToUri($this->controllerContext->getUriBuilder()->reset()->setAddQueryString(TRUE)->setArgumentsToBeExcludedFromQueryString(array('tx_commentsbase_list'))->build());
+	}
+
+	/**
+	 * @param $name
+	 * @return object
+	 */
+	public function getEmailView($name) {
+		$extbaseFrameworkConfiguration = $this->configurationManager->getConfiguration(\TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface::CONFIGURATION_TYPE_FRAMEWORK);
+		$templateRootPath = \TYPO3\CMS\Core\Utility\GeneralUtility::getFileAbsFileName($extbaseFrameworkConfiguration['view']['templateRootPath']);
+		$emailView = $this->objectManager->get('TYPO3\\CMS\\Fluid\\View\\StandaloneView');
+		$emailView->setTemplatePathAndFilename($templateRootPath . 'Email/' . $name . '.html');
+		$emailView->assign('templateRootPath', $templateRootPath);
+		$emailView->assign('settings', $this->settings);
+		return $emailView;
+	}
+
+	/**
+	 * @param \TYPO3\CommentsBase\Domain\Model\Comment $comment
+	 * @param $for
+	 */
+	public function sendEmailsFor(\TYPO3\CommentsBase\Domain\Model\Comment $comment, $for) {
+		if (is_array($this->settings[$for])) {
+			foreach($this->settings[$for] as $template => $mailSettings) {
+				$emailView = $this->getEmailView($template);
+				$emailView->assign('comment', $comment);
+				$body = $emailView->render();
+
+				foreach(array('fromEmail', 'fromName', 'toEmail', 'toName') as $property) {
+					if (strpos($mailSettings[$property], 'Function:') !== FALSE) {
+						$function = substr($mailSettings[$property], 9);
+						$mailSettings[$property] = $comment->getAuthor()->$function();
+					}
+				}
+
+				$this->mailMessage->setFrom(array($mailSettings['fromEmail'] => $mailSettings['fromName']));
+				$this->mailMessage->setTo(array($mailSettings['toEmail'] => $mailSettings['toName']));
+				$this->mailMessage->setSubject(sprintf($mailSettings['subject'], $comment->getAuthor()->getName(), $comment->getAuthor()->getEmail()));
+
+				$body = preg_replace_callback('/(<img [^>]*src=["|\'])([^"|\']+)/i', array(&$this, 'imageEmbed'), $body);
+				$this->mailMessage->setBody($body, 'text/html');
+				$this->mailMessage->send();
+			}
+		}
+	}
+
+	/**
+	 * @param $match
+	 * @return string
+	 */
+	private function imageEmbed($match) {
+		if ($this->embedCache === NULL) {
+			$this->embedCache = array();
+		}
+		$key = $match[2];
+		if (array_key_exists($key, $this->embedCache)) {
+			return $match[1] . $this->embedCache[$key];
+		}
+		$this->embedCache[$key] = $this->mailMessage->embed(\Swift_Image::fromPath($match[2]));
+
+		return $match[1] . $this->embedCache[$key];
 	}
 
 }

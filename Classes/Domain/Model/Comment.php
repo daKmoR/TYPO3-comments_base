@@ -77,6 +77,13 @@ class Comment extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	protected $disabled;
 
 	/**
+	 * The Uri where the comment was originally added
+	 *
+	 * @var string
+	 */
+	protected $uri;
+
+	/**
 	 * @return \string $entryId
 	 */
 	public function getEntryId() {
@@ -192,6 +199,20 @@ class Comment extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 */
 	public function getDisabled() {
 		return $this->disabled;
+	}
+
+	/**
+	 * @param string $uri
+	 */
+	public function setUri($uri) {
+		$this->uri = $uri;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getUri() {
+		return $this->uri;
 	}
 
 }
