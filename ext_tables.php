@@ -22,7 +22,7 @@ if (!defined('TYPO3_MODE')) {
 $TCA['tx_commentsbase_domain_model_comment'] = array(
 	'ctrl' => array(
 		'title'	=> 'LLL:EXT:comments_base/Resources/Private/Language/locallang_db.xlf:tx_commentsbase_domain_model_comment',
-		'label' => 'entry_id',
+		'label' => 'text',
 		'tstamp' => 'tstamp',
 		'crdate' => 'crdate',
 		'cruser_id' => 'cruser_id',

@@ -7,11 +7,11 @@ if (!defined('TYPO3_MODE')) {
 	'TYPO3.' . $_EXTKEY,
 	'List',
 	array(
-		'Comment' => 'list, new, create, edit, update',
+		'Comment' => 'list, enable, disable, delete',
 	),
 	// non-cacheable actions
 	array(
-		'Comment' => 'create, update',
+		'Comment' => 'enable, disable, delete',
 	)
 );
 
@@ -19,11 +19,11 @@ if (!defined('TYPO3_MODE')) {
 	'TYPO3.' . $_EXTKEY,
 	'New',
 	array(
-		'Comment' => 'new, create, edit, update',
+		'Comment' => 'new, create',
 	),
 	// non-cacheable actions
 	array(
-		'Comment' => 'create, update',
+		'Comment' => 'new',
 	)
 );
 

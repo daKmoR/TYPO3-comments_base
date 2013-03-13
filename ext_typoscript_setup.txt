@@ -1,6 +1,14 @@
 config.tx_extbase{
 	persistence{
 		classes{
+			TYPO3\CommentsBase\Domain\Model\Comment {
+				mapping {
+					columns {
+						crdate.mapOnProperty = createDate
+						hidden.mapOnProperty = disabled
+					}
+				}
+			}
 			TYPO3\CMS\Extbase\Domain\Model\FrontendUser {
 				subclasses {
 					Tx_CommentsBase_FrontendUser = TYPO3\CommentsBase\Domain\Model\FrontendUser

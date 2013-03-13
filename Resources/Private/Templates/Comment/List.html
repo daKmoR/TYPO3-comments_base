@@ -3,10 +3,39 @@
 
 <f:flashMessages />
 
-<f:for each="{comments}" as="comment">
-	<div class="comment">
-		{comment.text}
-	</div>
-</f:for>
+<f:if condition="comments">
+	<f:then>
+		<f:for each="{comments}" as="comment">
+
+			<div class="comment {f:if(condition: comment.disabled, then: 'disabled')}">
+				<div class="header">
+					<h5>{comment.author.username}, </h5>
+					<span class="date">
+						<f:format.date format="F j, Y">@{comment.createDate}</f:format.date>
+					</span>
+					<f:security.ifHasRole role="Administrator">
+						<span class="controls">
+							<f:if condition="{comment.disabled}">
+								<f:then>
+									<f:link.action action="enable" arguments="{comment: comment}" addQueryString="TRUE">freischalten</f:link.action>
+								</f:then>
+								<f:else>
+									<f:link.action action="disable" arguments="{comment: comment}" addQueryString="TRUE">verstecken</f:link.action>
+								</f:else>
+							</f:if>
+							<f:link.action action="delete" arguments="{comment: comment}" addQueryString="TRUE">löschen</f:link.action>
+						</span>
+					</f:security.ifHasRole>
+				</div>
+				<div class="text">
+					{comment.text}
+				</div>
+			</div>
+		</f:for>
+	</f:then>
+	<f:else>
+		<p>Noch keine Bewertungen verfügbar.</p>
+	</f:else>
+</f:if>
 
 </f:section>

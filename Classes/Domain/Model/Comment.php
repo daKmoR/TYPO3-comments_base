@@ -62,9 +62,19 @@ class Comment extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	protected $authorUrl;
 
 	/**
+	 * @var integer
+	 */
+	protected $createDate;
+
+	/**
 	 * @var \TYPO3\CommentsBase\Domain\Model\FrontendUser
 	 */
 	protected $author;
+
+	/**
+	 * @var boolean
+	 */
+	protected $disabled;
 
 	/**
 	 * @return \string $entryId
@@ -154,6 +164,34 @@ class Comment extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 */
 	public function setAuthor(\TYPO3\CommentsBase\Domain\Model\FrontendUser $author) {
 		$this->author = $author;
+	}
+
+	/**
+	 * @param int $createDatetime
+	 */
+	public function setCreateDate($createDatetime) {
+		$this->createDate = $createDatetime;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getCreateDate() {
+		return $this->createDate;
+	}
+
+	/**
+	 * @param boolean $disabled
+	 */
+	public function setDisabled($disabled) {
+		$this->disabled = $disabled;
+	}
+
+	/**
+	 * @return boolean
+	 */
+	public function getDisabled() {
+		return $this->disabled;
 	}
 
 }

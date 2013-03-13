@@ -66,13 +66,31 @@ class CommentController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 			$this->entryId = $this->settings['entryIdArray'] . '::' . $this->settings['entryIdValue'] . '::' . $entryIdArray[$this->settings['entryIdValue']];
 		}
 		$this->frontendUser = $GLOBALS['TSFE']->loginUser > 0 ? $this->frontendUserRepository->findByUid($GLOBALS['TSFE']->fe_user->user['uid']) : NULL;
+
+		$querySettings = $this->commentRepository->createQuery()->getQuerySettings();
+		$querySettings->setIgnoreEnableFields(TRUE);
+		$querySettings->setEnableFieldsToBeIgnored(array('disabled'));
+		$this->commentRepository->setDefaultQuerySettings($querySettings);
+
+		if ($this->request->hasArgument('comment')) {
+			$commentId = $this->request->getArgument('comment');
+			$comment = $this->commentRepository->findByUid($commentId);
+			$this->request->setArgument('comment', $comment);
+		}
 	}
 
 	/**
 	 * @return void
 	 */
 	public function listAction() {
-		$comments = $this->commentRepository->findByEntryId($this->entryId);
+		$comments = $this->commentRepository->findByEntryId($this->entryId)->toArray();
+		if ($this->frontendUser && !$this->frontendUser->hasRole('Administrator')) {
+			foreach($comments as $key => &$comment) {
+				if ($comment->getDisabled() === TRUE && $comment->getAuthor() !== $this->frontendUser) {
+					unset($comments[$key]);
+				}
+			}
+		}
 		$this->view->assign('comments', $comments);
 	}
 
@@ -91,7 +109,7 @@ class CommentController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 	 */
 	public function createAction(\TYPO3\CommentsBase\Domain\Model\Comment $comment) {
 		$comment->setEntryId($this->entryId);
-		if ($this->frontendUser !== null) {
+		if ($this->frontendUser !== NULL) {
 			$comment->setAuthor($this->frontendUser);
 		}
 		$this->commentRepository->add($comment);
@@ -102,20 +120,44 @@ class CommentController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 
 	/**
 	 * @param \TYPO3\CommentsBase\Domain\Model\Comment $comment
+	 * @dontvalidate $comment
 	 * @return void
 	 */
-	public function editAction(\TYPO3\CommentsBase\Domain\Model\Comment $comment) {
-		$this->view->assign('comment', $comment);
+	public function enableAction(\TYPO3\CommentsBase\Domain\Model\Comment $comment = NULL) {
+		if ($this->frontendUser && $this->frontendUser->hasRole('Administrator')) {
+			$comment->setDisabled(FALSE);
+			$this->commentRepository->update($comment);
+		}
+		$uriBuilder = $this->controllerContext->getUriBuilder();
+		$newUri = $uriBuilder->reset()->setAddQueryString(TRUE)->setArgumentsToBeExcludedFromQueryString(array('tx_commentsbase_list'))->build();
+		$this->redirectToUri($newUri);
 	}
 
 	/**
 	 * @param \TYPO3\CommentsBase\Domain\Model\Comment $comment
 	 * @return void
 	 */
-	public function updateAction(\TYPO3\CommentsBase\Domain\Model\Comment $comment) {
-		$this->commentRepository->update($comment);
-		$this->flashMessageContainer->add('Your Comment was updated.');
-		$this->redirect('list');
+	public function disableAction(\TYPO3\CommentsBase\Domain\Model\Comment $comment) {
+		if ($this->frontendUser && $this->frontendUser->hasRole('Administrator')) {
+			$comment->setDisabled(TRUE);
+			$this->commentRepository->update($comment);
+		}
+		$uriBuilder = $this->controllerContext->getUriBuilder();
+		$newUri = $uriBuilder->reset()->setAddQueryString(TRUE)->setArgumentsToBeExcludedFromQueryString(array('tx_commentsbase_list'))->build();
+		$this->redirectToUri($newUri);
+	}
+
+	/**
+	 * @param \TYPO3\CommentsBase\Domain\Model\Comment $comment
+	 * @return void
+	 */
+	public function deleteAction(\TYPO3\CommentsBase\Domain\Model\Comment $comment) {
+		if ($this->frontendUser && $this->frontendUser->hasRole('Administrator')) {
+			$this->commentRepository->remove($comment);
+		}
+		$uriBuilder = $this->controllerContext->getUriBuilder();
+		$newUri = $uriBuilder->reset()->setAddQueryString(TRUE)->setArgumentsToBeExcludedFromQueryString(array('tx_commentsbase_list'))->build();
+		$this->redirectToUri($newUri);
 	}
 
 }
