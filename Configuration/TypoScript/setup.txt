@@ -11,8 +11,9 @@ plugin.tx_commentsbase {
 		rewrittenPropertyMapper = 1
 	}
 	settings {
-		entryIdArray = tx_isirecipes_recipes
-		entryIdValue = recipe
+		#entryIdArray = tx_extension_plugin
+		#entryIdValue = entry
+		requireApproval = 1
 	}
 }
 

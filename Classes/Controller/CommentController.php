@@ -73,7 +73,7 @@ class CommentController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 	 * 3. set query settings so it will find hidden comments
 	 */
 	public function initializeAction() {
-		$this->entryId = '';
+		$this->entryId = 'page::' . $GLOBALS['TSFE']->id;
 		$entryIdArray = \TYPO3\CMS\Core\Utility\GeneralUtility::_GP($this->settings['entryIdArray']); ;
 		if (is_array($entryIdArray)) {
 			$this->entryId = $this->settings['entryIdArray'] . '::' . $this->settings['entryIdValue'] . '::' . $entryIdArray[$this->settings['entryIdValue']];
@@ -121,6 +121,9 @@ class CommentController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 		}
 		$uri = $this->controllerContext->getUriBuilder()->reset()->setAddQueryString(TRUE)->setArgumentsToBeExcludedFromQueryString(array('tx_commentsbase_new'))->build();
 		$comment->setUri($uri);
+		if ($this->settings['requireApproval']) {
+			$comment->setDisabled(TRUE);
+		}
 		$this->sendEmailsFor($comment, 'onCreate');
 		$this->commentRepository->add($comment);
 		$this->redirectToUri($uri);
@@ -205,7 +208,7 @@ class CommentController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 					}
 				}
 				$mailSettings['subject'] = sprintf($mailSettings['subject'], $comment->getAuthor()->getName(), $comment->getAuthor()->getEmail(), $comment->getAuthor()->getUsername());
-				
+
 				$this->mailMessage->setFrom(array($mailSettings['fromEmail'] => $mailSettings['fromName']));
 				$this->mailMessage->setTo(array($mailSettings['toEmail'] => $mailSettings['toName']));
 				$this->mailMessage->setSubject($mailSettings['subject']);
