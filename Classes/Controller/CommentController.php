@@ -204,10 +204,11 @@ class CommentController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 						$mailSettings[$property] = $comment->getAuthor()->$function();
 					}
 				}
-
+				$mailSettings['subject'] = sprintf($mailSettings['subject'], $comment->getAuthor()->getName(), $comment->getAuthor()->getEmail(), $comment->getAuthor()->getUsername());
+				
 				$this->mailMessage->setFrom(array($mailSettings['fromEmail'] => $mailSettings['fromName']));
 				$this->mailMessage->setTo(array($mailSettings['toEmail'] => $mailSettings['toName']));
-				$this->mailMessage->setSubject(sprintf($mailSettings['subject'], $comment->getAuthor()->getName(), $comment->getAuthor()->getEmail()));
+				$this->mailMessage->setSubject($mailSettings['subject']);
 
 				$body = preg_replace_callback('/(<img [^>]*src=["|\'])([^"|\']+)/i', array(&$this, 'imageEmbed'), $body);
 				$this->mailMessage->setBody($body, 'text/html');
