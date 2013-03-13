@@ -1,0 +1,38 @@
+plugin.tx_commentsbase {
+	view {
+		templateRootPath = EXT:comments_base/Resources/Private/Templates/
+		partialRootPath = EXT:comments_base/Resources/Private/Partials/
+		layoutRootPath = EXT:comments_base/Resources/Private/Layouts/
+	}
+	persistence {
+		storagePid =
+	}
+	features {
+		rewrittenPropertyMapper = 1
+	}
+	settings {
+		entryIdArray = tx_isirecipes_recipes
+		entryIdValue = recipe
+	}
+}
+
+lib.tx_commentsbase {
+	list <= plugin.tx_commentsbase
+	list = USER
+	list {
+		userFunc = TYPO3\CMS\Extbase\Core\Bootstrap->run
+		extensionName = CommentsBase
+		pluginName = List
+		controller = Comment
+		vendorName = TYPO3
+	}
+	new <= plugin.tx_commentsbase
+	new = USER
+	new {
+		userFunc = TYPO3\CMS\Extbase\Core\Bootstrap->run
+		extensionName = CommentsBase
+		pluginName = New
+		controller = Comment
+		vendorName = TYPO3
+	}
+}

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" datatype="plaintext" original="messages" date="2013-03-12T13:48:10Z" product-name="comments_base">
+		<header/>
+		<body>
+
+			<trans-unit id="tx_commentsbase_domain_model_comment">
+				<source>Comment</source>
+			</trans-unit>
+			<trans-unit id="tx_commentsbase_domain_model_comment.entry_id">
+				<source>Entry Id</source>
+			</trans-unit>
+			<trans-unit id="tx_commentsbase_domain_model_comment.text">
+				<source>Text</source>
+			</trans-unit>
+			<trans-unit id="tx_commentsbase_domain_model_comment.author_name">
+				<source>Author Name</source>
+			</trans-unit>
+			<trans-unit id="tx_commentsbase_domain_model_comment.author_email">
+				<source>Author Email</source>
+			</trans-unit>
+			<trans-unit id="tx_commentsbase_domain_model_comment.author_url">
+				<source>Author Url</source>
+			</trans-unit>
+			<trans-unit id="tx_commentsbase_domain_model_comment.author">
+				<source>Author</source>
+			</trans-unit>
+
+			<trans-unit id="tx_commentsbase_domain_model_frontenduser">
+				<source>Frontend User</source>
+			</trans-unit>
+			<trans-unit id="tx_commentsbase_domain_model_frontenduser.comments">
+				<source>Comments</source>
+			</trans-unit>
+			
+			<trans-unit id="fe_users.tx_extbase_type.Tx_CommentsBase_FrontendUser">
+				<source>Comments FrontendUser</source>
+			</trans-unit>
+			
+		</body>
+	</file>
+</xliff>

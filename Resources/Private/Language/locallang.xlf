@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" datatype="plaintext" original="messages" date="2013-03-12T13:48:10Z" product-name="comments_base">
+		<header/>
+		<body>
+
+			<trans-unit id="tx_commentsbase_domain_model_comment">
+				<source>Comment</source>
+			</trans-unit>
+			<trans-unit id="tx_commentsbase_domain_model_comment.entry_id">
+				<source>identifies where this comment belongs to</source>
+			</trans-unit>
+			<trans-unit id="tx_commentsbase_domain_model_comment.text">
+				<source>text</source>
+			</trans-unit>
+			<trans-unit id="tx_commentsbase_domain_model_comment.author_name">
+				<source>authorName</source>
+			</trans-unit>
+			<trans-unit id="tx_commentsbase_domain_model_comment.author_email">
+				<source>authorEmail</source>
+			</trans-unit>
+			<trans-unit id="tx_commentsbase_domain_model_comment.author_url">
+				<source>authorUrl</source>
+			</trans-unit>
+			<trans-unit id="tx_commentsbase_domain_model_comment.author">
+				<source>author</source>
+			</trans-unit>
+			
+			<trans-unit id="tx_commentsbase_domain_model_frontenduser">
+				<source>FrontendUser</source>
+			</trans-unit>
+			<trans-unit id="tx_commentsbase_domain_model_frontenduser.comments">
+				<source>comments</source>
+			</trans-unit>
+			
+		</body>
+	</file>
+</xliff>

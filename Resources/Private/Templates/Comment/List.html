@@ -1,0 +1,12 @@
+<f:layout name="Default" />
+<f:section name="main">
+
+<f:flashMessages />
+
+<f:for each="{comments}" as="comment">
+	<div class="comment">
+		{comment.text}
+	</div>
+</f:for>
+
+</f:section>

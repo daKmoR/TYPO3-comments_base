@@ -1,0 +1,17 @@
+config.tx_extbase{
+	persistence{
+		classes{
+			TYPO3\CMS\Extbase\Domain\Model\FrontendUser {
+				subclasses {
+					Tx_CommentsBase_FrontendUser = TYPO3\CommentsBase\Domain\Model\FrontendUser
+				}
+			}
+			TYPO3\CommentsBase\Domain\Model\FrontendUser {
+				mapping {
+					tableName = fe_users
+					#recordType = Tx_CommentsBase_FrontendUser
+				}
+			}
+		}
+	}
+}

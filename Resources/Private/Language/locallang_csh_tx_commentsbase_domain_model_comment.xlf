@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" datatype="plaintext" original="messages" date="2013-03-12T13:48:10Z" product-name="comments_base">
+		<header/>
+		<body>
+
+			<trans-unit id="entry_id.description">
+				<source>identifies where this comment belongs to</source>
+			</trans-unit>
+			<trans-unit id="text.description">
+				<source>text</source>
+			</trans-unit>
+			<trans-unit id="author_name.description">
+				<source>authorName</source>
+			</trans-unit>
+			<trans-unit id="author_email.description">
+				<source>authorEmail</source>
+			</trans-unit>
+			<trans-unit id="author_url.description">
+				<source>authorUrl</source>
+			</trans-unit>
+			<trans-unit id="author.description">
+				<source>author</source>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>
