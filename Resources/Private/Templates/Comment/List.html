@@ -1,9 +1,7 @@
 <f:layout name="Default" />
 <f:section name="main">
 
-<f:flashMessages />
-
-<f:if condition="comments">
+<f:if condition="{comments}">
 	<f:then>
 		<f:for each="{comments}" as="comment">
 
