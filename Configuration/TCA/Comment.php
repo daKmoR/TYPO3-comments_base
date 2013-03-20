@@ -6,10 +6,10 @@ if (!defined ('TYPO3_MODE')) {
 $TCA['tx_commentsbase_domain_model_comment'] = array(
 	'ctrl' => $TCA['tx_commentsbase_domain_model_comment']['ctrl'],
 	'interface' => array(
-		'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, entry_id, text, author_name, author_email, author_url, author',
+		'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, entry_id, text, author_name, author_email, author_url, author, parent',
 	),
 	'types' => array(
-		'1' => array('showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, entry_id, text, author_name, author_email, author_url, author,--div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access,starttime, endtime'),
+		'1' => array('showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, entry_id, text, author_name, author_email, author_url, author, parent,--div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access,starttime, endtime'),
 	),
 	'palettes' => array(
 		'1' => array('showitem' => ''),
@@ -149,6 +149,25 @@ $TCA['tx_commentsbase_domain_model_comment'] = array(
 				'maxitems' => 1,
 			),
 		),
+		'parent' => array(
+			'exclude' => 0,
+			'label' => 'Parent',
+			'config' => array(
+				'type' => 'select',
+				'foreign_table' => 'tx_commentsbase_domain_model_comment',
+				'minitems' => 0,
+				'maxitems' => 1,
+			),
+		),
+
+		'children' => array(
+			'config' => array(
+				'type' => 'passthrough',
+				'foreign_table' => 'tx_commentsbase_domain_model_comment',
+				'foreign_field' => 'parent',
+			),
+		),
+
 	),
 );
 

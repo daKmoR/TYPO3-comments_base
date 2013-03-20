@@ -72,6 +72,16 @@ class Comment extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	protected $author;
 
 	/**
+	 * @var \TYPO3\CommentsBase\Domain\Model\Comment
+	 */
+	protected $parent;
+
+	/**
+	 * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\TYPO3\CommentsBase\Domain\Model\Comment>
+	 */
+	protected $children;
+
+	/**
 	 * @var boolean
 	 */
 	protected $disabled;
@@ -213,6 +223,50 @@ class Comment extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 */
 	public function getUri() {
 		return $this->uri;
+	}
+
+	/**
+	 * @param \TYPO3\CommentsBase\Domain\Model\Comment $parent
+	 */
+	public function setParent($parent) {
+		$this->parent = $parent;
+	}
+
+	/**
+	 * @return \TYPO3\CommentsBase\Domain\Model\Comment
+	 */
+	public function getParent() {
+		return $this->parent;
+	}
+
+	/**
+	 * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage $children
+	 */
+	public function setChildren($children) {
+		$this->children = $children;
+	}
+
+	/**
+	 * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage
+	 */
+	public function getChildren() {
+		return $this->children;
+	}
+
+	/**
+	 * @param \TYPO3\CommentsBase\Domain\Model\Comment $comment
+	 * @return void
+	 */
+	public function addChild(\TYPO3\CommentsBase\Domain\Model\Comment $comment) {
+		 $this->children->attach($comment);
+	}
+
+	/**
+	 * @param \TYPO3\CommentsBase\Domain\Model\Comment $comment
+	 * @return void
+	 */
+	public function removeChild(\TYPO3\CommentsBase\Domain\Model\Comment $comment) {
+		 $this->children->detach($comment);
 	}
 
 }

@@ -5,7 +5,7 @@ namespace TYPO3\CommentsBase\Domain\Repository;
  *  Copyright notice
  *
  *  (c) 2013 Thomas Allmer <d4kmor@gmail.com>, moodley brand identity
- *  
+ *
  *  All rights reserved
  *
  *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -33,6 +33,32 @@ namespace TYPO3\CommentsBase\Domain\Repository;
  *
  */
 class CommentRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
+
+	/**
+	 * @var \TYPO3\CMS\Extbase\Persistence\QueryInterface
+	 */
+	protected $query;
+
+	/**
+	 * @var array
+	 */
+	protected $constraints;
+
+
+	public function findRootCommentsByEntryId($entryId) {
+		$this->query = $this->createQuery();
+		if ($entryId !== NULL) {
+			$this->constraints = array();
+
+			$this->constraints[] = $this->query->equals('parent', 0);
+			$this->constraints[] = $this->query->equals('entry_id', $entryId);
+
+			if (count($this->constraints) > 0) {
+				$this->query->matching($this->query->logicalAnd($this->constraints));
+			}
+		}
+		return $this->query->execute();
+	}
 
 }
 ?>

@@ -6,12 +6,14 @@ CREATE TABLE tx_commentsbase_domain_model_comment (
 	uid int(11) NOT NULL auto_increment,
 	pid int(11) DEFAULT '0' NOT NULL,
 
-	entry_id varchar(255) DEFAULT '' NOT NULL,
+	entry_id varchar(1024) DEFAULT '' NOT NULL,
 	text text NOT NULL,
 	author_name varchar(255) DEFAULT '' NOT NULL,
 	author_email varchar(255) DEFAULT '' NOT NULL,
 	author_url varchar(255) DEFAULT '' NOT NULL,
 	author int(11) unsigned DEFAULT '0',
+	parent int(11) unsigned DEFAULT '0',
+	children int(11) unsigned DEFAULT '0',
 
 	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
 	crdate int(11) unsigned DEFAULT '0' NOT NULL,

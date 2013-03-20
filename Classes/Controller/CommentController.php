@@ -90,7 +90,7 @@ class CommentController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 	 * @return void
 	 */
 	public function listAction() {
-		$comments = $this->commentRepository->findByEntryId($this->entryId)->toArray();
+		$comments = $this->commentRepository->findRootCommentsByEntryId($this->entryId)->toArray();
 		if ($this->frontendUser && !$this->frontendUser->hasRole('Administrator')) {
 			foreach($comments as $key => &$comment) {
 				if ($comment->getDisabled() === TRUE && $comment->getAuthor() !== $this->frontendUser) {
