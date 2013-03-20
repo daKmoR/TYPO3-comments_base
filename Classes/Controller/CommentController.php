@@ -121,7 +121,7 @@ class CommentController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 		}
 		$uri = $this->controllerContext->getUriBuilder()->reset()->setAddQueryString(TRUE)->setArgumentsToBeExcludedFromQueryString(array('tx_commentsbase_new'))->build();
 		$comment->setUri($uri);
-		if ($this->settings['requireApproval']) {
+		if ($this->settings['requireApproval'] && !$this->frontendUser->hasRole('Administrator')) {
 			$comment->setDisabled(TRUE);
 		}
 		$this->sendEmailsFor($comment, 'onCreate');
