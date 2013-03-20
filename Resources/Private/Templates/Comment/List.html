@@ -15,13 +15,13 @@
 						<span class="controls">
 							<f:if condition="{comment.disabled}">
 								<f:then>
-									<f:link.action action="enable" arguments="{comment: comment}" addQueryString="TRUE"><span>freischalten</span></f:link.action>
+									<f:link.action action="enable" arguments="{comment: comment}" addQueryString="TRUE" title="freischalten"><span>freischalten</span></f:link.action>
 								</f:then>
 								<f:else>
-									<f:link.action action="disable" arguments="{comment: comment}" addQueryString="TRUE"><span>verstecken</span></f:link.action>
+									<f:link.action action="disable" arguments="{comment: comment}" addQueryString="TRUE" title="verstecken"><span>verstecken</span></f:link.action>
 								</f:else>
 							</f:if>
-							<f:link.action action="delete" arguments="{comment: comment}" addQueryString="TRUE"><span>löschen</span></f:link.action>
+							<f:link.action action="delete" arguments="{comment: comment}" addQueryString="TRUE" title="löschen"><span>löschen</span></f:link.action>
 						</span>
 					</f:security.ifHasRole>
 				</div>
