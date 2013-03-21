@@ -102,30 +102,30 @@ class CommentController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 	}
 
 	/**
-	 * @param \TYPO3\CommentsBase\Domain\Model\Comment $ncomment
-	 * @dontvalidate $comment
+	 * @param \TYPO3\CommentsBase\Domain\Model\Comment $newComment
+	 * @dontvalidate $newComment
 	 * @return void
 	 */
-	public function newAction(\TYPO3\CommentsBase\Domain\Model\Comment $comment = NULL) {
-		$this->view->assign('comment', $comment);
+	public function newAction(\TYPO3\CommentsBase\Domain\Model\Comment $newComment = NULL) {
+		$this->view->assign('newComment', $newComment);
 	}
 
 	/**
-	 * @param \TYPO3\CommentsBase\Domain\Model\Comment $comment
+	 * @param \TYPO3\CommentsBase\Domain\Model\Comment $newComment
 	 * @return void
 	 */
-	public function createAction(\TYPO3\CommentsBase\Domain\Model\Comment $comment) {
-		$comment->setEntryId($this->entryId);
+	public function createAction(\TYPO3\CommentsBase\Domain\Model\Comment $newComment) {
+		$newComment->setEntryId($this->entryId);
 		if ($this->frontendUser !== NULL) {
-			$comment->setAuthor($this->frontendUser);
+			$newComment->setAuthor($this->frontendUser);
 		}
 		$uri = $this->controllerContext->getUriBuilder()->reset()->setAddQueryString(TRUE)->setArgumentsToBeExcludedFromQueryString(array('tx_commentsbase_new'))->build();
-		$comment->setUri($uri);
+		$newComment->setUri($uri);
 		if ($this->settings['requireApproval'] && !$this->frontendUser->hasRole('Administrator')) {
-			$comment->setDisabled(TRUE);
+			$newComment->setDisabled(TRUE);
+			$this->sendEmailsFor($newComment, 'onCreate');
 		}
-		$this->sendEmailsFor($comment, 'onCreate');
-		$this->commentRepository->add($comment);
+		$this->commentRepository->add($newComment);
 		$this->redirectToUri($uri);
 	}
 
