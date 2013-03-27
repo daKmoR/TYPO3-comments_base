@@ -130,14 +130,21 @@ class CommentController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 	}
 
 	/**
-	 * we need to manually check for the comment as it's currently hidden so it won't be found automatically
+	 * if there is a comment, find it even if it's hidden
 	 */
-	public function initializeEnableAction() {
+	public function checkRequestForComment() {
 		if ($this->request->hasArgument('comment')) {
 			$commentId = $this->request->getArgument('comment');
 			$comment = $this->commentRepository->findByUid($commentId);
 			$this->request->setArgument('comment', $comment);
 		}
+	}
+
+	/**
+	 * we need to manually check for the comment as it's currently hidden so it won't be found automatically
+	 */
+	public function initializeEnableAction() {
+		$this->checkRequestForComment();
 	}
 
 	/**
@@ -163,6 +170,13 @@ class CommentController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 			$this->commentRepository->update($comment);
 		}
 		$this->redirectToUri($this->controllerContext->getUriBuilder()->reset()->setAddQueryString(TRUE)->setArgumentsToBeExcludedFromQueryString(array('tx_commentsbase_list'))->build());
+	}
+
+	/**
+	 * we need to manually check for the comment as it might be hidden so it won't be found automatically (you can also delete hidden comments)
+	 */
+	public function initializeDeleteAction() {
+		$this->checkRequestForComment();
 	}
 
 	/**
