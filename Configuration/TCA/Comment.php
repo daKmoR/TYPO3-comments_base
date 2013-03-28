@@ -6,10 +6,10 @@ if (!defined ('TYPO3_MODE')) {
 $TCA['tx_commentsbase_domain_model_comment'] = array(
 	'ctrl' => $TCA['tx_commentsbase_domain_model_comment']['ctrl'],
 	'interface' => array(
-		'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, entry_id, text, author_name, author_email, author_url, author, parent',
+		'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, crdate, entry_id, text, author_name, author_email, author_url, author, parent',
 	),
 	'types' => array(
-		'1' => array('showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, entry_id, text, author_name, author_email, author_url, author, parent,--div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access,starttime, endtime'),
+		'1' => array('showitem' => 'sys_language_uid;;;;1-1-1, l10n_parent, l10n_diffsource, hidden;;1, crdate, entry_id, text, author_name, author_email, author_url, author, parent,--div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access,starttime, endtime'),
 	),
 	'palettes' => array(
 		'1' => array('showitem' => ''),
@@ -59,6 +59,19 @@ $TCA['tx_commentsbase_domain_model_comment'] = array(
 			'label' => 'LLL:EXT:lang/locallang_general.xlf:LGL.hidden',
 			'config' => array(
 				'type' => 'check',
+			),
+		),
+		'crdate' => array(
+			'exclude' => 0,
+			'l10n_mode' => 'mergeIfNotBlank',
+			'label' => 'LLL:EXT:lang/locallang_general.xlf:LGL.starttime',
+			'config' => array(
+				'type' => 'input',
+				'size' => 13,
+				'max' => 20,
+				'eval' => 'datetime',
+				'checkbox' => 0,
+				'default' => 0,
 			),
 		),
 		'starttime' => array(
@@ -111,6 +124,7 @@ $TCA['tx_commentsbase_domain_model_comment'] = array(
 				'rows' => 15,
 				'eval' => 'trim'
 			),
+			'defaultExtras' => 'richtext[]:rte_transform[mode=ts_css]',
 		),
 		'author_name' => array(
 			'exclude' => 0,
