@@ -4,39 +4,34 @@
 		<header/>
 		<body>
 
-			<trans-unit id="tx_commentsbase_domain_model_comment">
+			<trans-unit id="comment">
 				<source>Comment</source>
 			</trans-unit>
-			<trans-unit id="tx_commentsbase_domain_model_comment.entry_id">
+			<trans-unit id="comment.createDate">
+				<source>Create Date</source>
+			</trans-unit>
+			<trans-unit id="comment.entryId">
 				<source>Entry Id</source>
 			</trans-unit>
-			<trans-unit id="tx_commentsbase_domain_model_comment.text">
+			<trans-unit id="comment.text">
 				<source>Text</source>
 			</trans-unit>
-			<trans-unit id="tx_commentsbase_domain_model_comment.author_name">
+			<trans-unit id="comment.authorName">
 				<source>Author Name</source>
 			</trans-unit>
-			<trans-unit id="tx_commentsbase_domain_model_comment.author_email">
+			<trans-unit id="comment.authorEmail">
 				<source>Author Email</source>
 			</trans-unit>
-			<trans-unit id="tx_commentsbase_domain_model_comment.author_url">
+			<trans-unit id="comment.authorUrl">
 				<source>Author Url</source>
 			</trans-unit>
-			<trans-unit id="tx_commentsbase_domain_model_comment.author">
+			<trans-unit id="comment.author">
 				<source>Author</source>
 			</trans-unit>
+			<trans-unit id="comment.parent">
+				<source>Parent</source>
+			</trans-unit>
 
-			<trans-unit id="tx_commentsbase_domain_model_frontenduser">
-				<source>Frontend User</source>
-			</trans-unit>
-			<trans-unit id="tx_commentsbase_domain_model_frontenduser.comments">
-				<source>Comments</source>
-			</trans-unit>
-			
-			<trans-unit id="fe_users.tx_extbase_type.Tx_CommentsBase_FrontendUser">
-				<source>Comments FrontendUser</source>
-			</trans-unit>
-			
 		</body>
 	</file>
 </xliff>

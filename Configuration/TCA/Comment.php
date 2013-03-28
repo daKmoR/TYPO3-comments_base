@@ -61,19 +61,6 @@ $TCA['tx_commentsbase_domain_model_comment'] = array(
 				'type' => 'check',
 			),
 		),
-		'crdate' => array(
-			'exclude' => 0,
-			'l10n_mode' => 'mergeIfNotBlank',
-			'label' => 'LLL:EXT:lang/locallang_general.xlf:LGL.starttime',
-			'config' => array(
-				'type' => 'input',
-				'size' => 13,
-				'max' => 20,
-				'eval' => 'datetime',
-				'checkbox' => 0,
-				'default' => 0,
-			),
-		),
 		'starttime' => array(
 			'exclude' => 1,
 			'l10n_mode' => 'mergeIfNotBlank',
@@ -106,9 +93,22 @@ $TCA['tx_commentsbase_domain_model_comment'] = array(
 				),
 			),
 		),
+		'crdate' => array(
+			'exclude' => 0,
+			'l10n_mode' => 'mergeIfNotBlank',
+			'label' => 'LLL:EXT:comments_base/Resources/Private/Language/locallang_db.xlf:comment.createDate',
+			'config' => array(
+				'type' => 'input',
+				'size' => 13,
+				'max' => 20,
+				'eval' => 'datetime',
+				'checkbox' => 0,
+				'default' => 0,
+			),
+		),
 		'entry_id' => array(
 			'exclude' => 0,
-			'label' => 'LLL:EXT:comments_base/Resources/Private/Language/locallang_db.xlf:tx_commentsbase_domain_model_comment.entry_id',
+			'label' => 'LLL:EXT:comments_base/Resources/Private/Language/locallang_db.xlf:comment.entryId',
 			'config' => array(
 				'type' => 'input',
 				'size' => 30,
@@ -117,7 +117,7 @@ $TCA['tx_commentsbase_domain_model_comment'] = array(
 		),
 		'text' => array(
 			'exclude' => 0,
-			'label' => 'LLL:EXT:comments_base/Resources/Private/Language/locallang_db.xlf:tx_commentsbase_domain_model_comment.text',
+			'label' => 'LLL:EXT:comments_base/Resources/Private/Language/locallang_db.xlf:comment.text',
 			'config' => array(
 				'type' => 'text',
 				'cols' => 40,
@@ -128,7 +128,7 @@ $TCA['tx_commentsbase_domain_model_comment'] = array(
 		),
 		'author_name' => array(
 			'exclude' => 0,
-			'label' => 'LLL:EXT:comments_base/Resources/Private/Language/locallang_db.xlf:tx_commentsbase_domain_model_comment.author_name',
+			'label' => 'LLL:EXT:comments_base/Resources/Private/Language/locallang_db.xlf:comment.authorName',
 			'config' => array(
 				'type' => 'input',
 				'size' => 30,
@@ -137,7 +137,7 @@ $TCA['tx_commentsbase_domain_model_comment'] = array(
 		),
 		'author_email' => array(
 			'exclude' => 0,
-			'label' => 'LLL:EXT:comments_base/Resources/Private/Language/locallang_db.xlf:tx_commentsbase_domain_model_comment.author_email',
+			'label' => 'LLL:EXT:comments_base/Resources/Private/Language/locallang_db.xlf:comment.authorEmail',
 			'config' => array(
 				'type' => 'input',
 				'size' => 30,
@@ -146,7 +146,7 @@ $TCA['tx_commentsbase_domain_model_comment'] = array(
 		),
 		'author_url' => array(
 			'exclude' => 0,
-			'label' => 'LLL:EXT:comments_base/Resources/Private/Language/locallang_db.xlf:tx_commentsbase_domain_model_comment.author_url',
+			'label' => 'LLL:EXT:comments_base/Resources/Private/Language/locallang_db.xlf:comment.authorUrl',
 			'config' => array(
 				'type' => 'input',
 				'size' => 30,
@@ -155,7 +155,7 @@ $TCA['tx_commentsbase_domain_model_comment'] = array(
 		),
 		'author' => array(
 			'exclude' => 0,
-			'label' => 'LLL:EXT:comments_base/Resources/Private/Language/locallang_db.xlf:tx_commentsbase_domain_model_comment.author',
+			'label' => 'LLL:EXT:comments_base/Resources/Private/Language/locallang_db.xlf:comment.author',
 			'config' => array(
 				'type' => 'select',
 				'foreign_table' => 'fe_users',
@@ -165,9 +165,12 @@ $TCA['tx_commentsbase_domain_model_comment'] = array(
 		),
 		'parent' => array(
 			'exclude' => 0,
-			'label' => 'Parent',
+			'label' => 'LLL:EXT:comments_base/Resources/Private/Language/locallang_db.xlf:comment.parent',
 			'config' => array(
 				'type' => 'select',
+				'items' => Array (
+					Array('', 0),
+				),
 				'foreign_table' => 'tx_commentsbase_domain_model_comment',
 				'minitems' => 0,
 				'maxitems' => 1,
