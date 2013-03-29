@@ -6,26 +6,33 @@
 
 			<trans-unit id="comment.enable">
 				<source>enable</source>
+				<target>freischalten</target>
 			</trans-unit>
 			<trans-unit id="comment.disable">
 				<source>disable</source>
+				<target>verstecken</target>
 			</trans-unit>
 			<trans-unit id="comment.delete">
 				<source>delete</source>
+				<target>löschen</target>
 			</trans-unit>
 
 			<trans-unit id="list.empty">
 				<source>Currently there are no comments.</source>
+				<target>Derzeit gibt es noch keine Kommentare.</target>
 			</trans-unit>
 
 			<trans-unit id="new.submit">
 				<source>Submit</source>
+				<target>Absenden</target>
 			</trans-unit>
 			<trans-unit id="new.submitInfo">
 				<source>Note: Inappropriate comments will be edited or deleted.</source>
+				<target>Hinweis: Unsachgemäße Kommentare werden nachbearbeitet oder gelöscht.</target>
 			</trans-unit>
 			<trans-unit id="new.overText">
 				<source>Your Comment...</source>
+				<target>Dein Kommentar...</target>
 			</trans-unit>
 
 			<trans-unit id="comment">
