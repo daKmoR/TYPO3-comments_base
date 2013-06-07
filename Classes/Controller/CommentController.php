@@ -210,7 +210,8 @@ class CommentController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 	 */
 	public function sendEmailsFor(\TYPO3\CommentsBase\Domain\Model\Comment $comment, $for) {
 		if (is_array($this->settings[$for])) {
-			foreach($this->settings[$for] as $template => $mailSettings) {
+			foreach($this->settings[$for] as $name => $mailSettings) {
+				$template = $mailSettings['template'] ? $mailSettings['template'] : substr($for, 2); // use defined template OR strip on from on<Action>
 				$emailView = $this->getEmailView($template);
 				$emailView->assign('comment', $comment);
 				$body = $emailView->render();
