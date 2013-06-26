@@ -1,38 +1,38 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <xliff version="1.0">
-	<file source-language="en" target-language="de" datatype="plaintext" original="messages" date="2013-03-12T13:48:10Z" product-name="comments_base">
+	<file source-language="en" target-language="es" datatype="plaintext" original="messages" date="2013-03-12T13:48:10Z" product-name="comments_base">
 		<header/>
 		<body>
 
 			<trans-unit id="comment.enable">
 				<source>enable</source>
-				<target>freischalten</target>
+				<target>permitir</target>
 			</trans-unit>
 			<trans-unit id="comment.disable">
 				<source>disable</source>
-				<target>verstecken</target>
+				<target>inhabilitar</target>
 			</trans-unit>
 			<trans-unit id="comment.delete">
 				<source>delete</source>
-				<target>löschen</target>
+				<target>borrar</target>
 			</trans-unit>
 
 			<trans-unit id="list.empty">
 				<source>Currently there are no comments.</source>
-				<target>Derzeit gibt es noch keine Kommentare.</target>
+				<target>Actualmente no hay comentarios en la lista.</target>
 			</trans-unit>
 
 			<trans-unit id="new.submit">
 				<source>Submit</source>
-				<target>Absenden</target>
+				<target>Presentar</target>
 			</trans-unit>
 			<trans-unit id="new.submitInfo">
 				<source>Note: Inappropriate comments will be edited or deleted.</source>
-				<target>Hinweis: Unsachgemäße Kommentare werden nachbearbeitet oder gelöscht.</target>
+				<target>Nota: preguntas comentarios serán modificadas o borradas.</target>
 			</trans-unit>
 			<trans-unit id="new.overText">
 				<source>Your Comment...</source>
-				<target>Dein Kommentar...</target>
+				<target>Tu comentario ...</target>
 			</trans-unit>
 
 		</body>
