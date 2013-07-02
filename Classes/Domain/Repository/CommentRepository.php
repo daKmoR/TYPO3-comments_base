@@ -53,6 +53,10 @@ class CommentRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 			$this->constraints[] = $this->query->equals('parent', 0);
 			$this->constraints[] = $this->query->equals('entry_id', $entryId);
 
+			/* manually constrain language as we want only to show comments according to current language */
+			$this->query->getQuerySettings()->setRespectSysLanguage(FALSE);
+			$this->constraints[] = $this->query->equals('sys_language_uid', $GLOBALS['TSFE']->sys_language_content);
+
 			if (count($this->constraints) > 0) {
 				$this->query->matching($this->query->logicalAnd($this->constraints));
 			}

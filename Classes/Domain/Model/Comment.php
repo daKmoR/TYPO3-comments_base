@@ -269,5 +269,19 @@ class Comment extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 		 $this->children->detach($comment);
 	}
 
+	/**
+	 * @param int $languageUid
+	 */
+	public function setLanguageUid($languageUid) {
+		$this->_languageUid = $languageUid;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getLanguageUid() {
+		return $this->_languageUid;
+	}
+
 }
 ?>

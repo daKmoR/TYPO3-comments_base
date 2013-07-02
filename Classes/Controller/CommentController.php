@@ -68,11 +68,37 @@ class CommentController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 	protected $embedCache;
 
 	/**
-	 * 1. build entryId for the comment so we know what to query
-	 * 2. check for a logged in user
-	 * 3. set query settings so it will find hidden comments
+	 * @var integer
+	 */
+	protected $originalLanguage = false;
+
+	/**
+	 * Handles a request. The result output is returned by altering the given response.
+	 *
+	 * @param \TYPO3\CMS\Extbase\Mvc\RequestInterface $request The request object
+	 * @param \TYPO3\CMS\Extbase\Mvc\ResponseInterface $response The response, modified by this handler
+	 * @throws \TYPO3\CMS\Extbase\Mvc\Exception\UnsupportedRequestTypeException
+	 * @return void
+	 */
+	public function processRequest(\TYPO3\CMS\Extbase\Mvc\RequestInterface $request, \TYPO3\CMS\Extbase\Mvc\ResponseInterface $response) {
+		parent::processRequest($request, $response);
+		if ($this->originalLanguage !== false) {
+			$GLOBALS['TSFE']->sys_language_content = $this->originalLanguage;
+		}
+	}
+
+	/**
+	 * 1. set forced language if needed
+	 * 2. build entryId for the comment so we know what to query
+	 * 3. check for a logged in user
+	 * 4. set query settings so it will find hidden comments
 	 */
 	public function initializeAction() {
+		if ($this->settings['forceLanguageUid'] > 0) {
+			$this->originalLanguage = $GLOBALS['TSFE']->sys_language_content;
+			$GLOBALS['TSFE']->sys_language_content = $this->settings['forceLanguageUid'];
+		}
+
 		$this->entryId = 'page::' . $GLOBALS['TSFE']->id;
 		$entryIdArray = \TYPO3\CMS\Core\Utility\GeneralUtility::_GP($this->settings['entryIdArray']); ;
 		if (is_array($entryIdArray)) {
@@ -125,6 +151,9 @@ class CommentController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 			$newComment->setDisabled(TRUE);
 			$this->sendEmailsFor($newComment, 'onCreate');
 		}
+
+		$newComment->setLanguageUid($GLOBALS['TSFE']->sys_language_content);
+
 		$this->commentRepository->add($newComment);
 		$this->redirectToUri($uri);
 	}
