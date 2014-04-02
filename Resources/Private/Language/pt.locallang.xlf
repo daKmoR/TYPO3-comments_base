@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<xliff version="1.0">
+  <file source-language="en" target-language="pl" datatype="plaintext" original="messages" date="2013-03-12T13:48:10Z" product-name="comments_base">
+    <header/>
+    <body>
+      <trans-unit id="comment.enable">
+        <source>enable</source>
+        <target>liberar</target>
+      </trans-unit>
+      <trans-unit id="comment.disable">
+        <source>disable</source>
+        <target>ocultar</target>
+      </trans-unit>
+      <trans-unit id="comment.delete">
+        <source>delete</source>
+        <target>excluir</target>
+      </trans-unit>
+      <trans-unit id="list.empty">
+        <source>Currently there are no comments.</source>
+        <target>Atualmente ainda não existem comentários.</target>
+      </trans-unit>
+      <trans-unit id="new.submit">
+        <source>Submit</source>
+        <target>Enviar</target>
+      </trans-unit>
+      <trans-unit id="new.submitInfo">
+        <source>Note: Inappropriate comments will be edited or deleted.</source>
+        <target>Observação: Comentários impróprios serão retrabalhados ou excluídos.</target>
+      </trans-unit>
+      <trans-unit id="new.overText">
+        <source>Your Comment...</source>
+        <target>Seu comentário...</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
